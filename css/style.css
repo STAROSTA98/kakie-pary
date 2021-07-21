@@ -1,0 +1,82 @@
+/*название*/
+
+header {
+    padding: 5px 5px 0;
+    margin: 20px 20px 0;
+}
+
+/* меню */
+
+
+
+#textAdd
+{
+    width: 100%;
+    margin: 0;
+}
+
+ul.nav a:hover{
+    background-color: #dedec3;
+}
+
+nav.index{
+    min-height: 100vh; 
+}
+
+div.groups{
+    height: 50px;
+}
+
+nav.groups li:hover{
+    background-color: #dedec3;
+    cursor: pointer;
+}
+/* выпадающий список */
+.ui-autocomplete {
+    z-index: 100000 !important;
+  }
+
+.listEdit{
+      width: 92%;
+      display: inline-block;
+}
+
+.inpGroup{
+    border: none;
+}
+/* форма авторизации */
+form.auth{
+    background-color: white;
+    border:1px thistle solid;
+    border-radius: 30px;
+    padding: 40px;
+    position: fixed;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+}
+
+body.auth{
+    background-color:whitesmoke;
+}
+
+/* обязательные поля */
+label.required:after{
+    content:"*";
+    color:red;
+}
+/* выравнивание текста в расписании */
+.groupBtn{
+    height: 8vh;
+    line-height: 7vh;
+}
+
+.table{
+    font-size: 14px;
+    text-align: center;
+}
+
+.dateClick{
+    cursor: pointer;
+}

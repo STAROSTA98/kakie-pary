@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" lang="ru">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+    <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</head>
+
+<body>
+    <h4>Смена пароля</h4>
+    <form method="post" class="changePass">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label" >Логин</label>
+            <input id="loggin" class="form-control" name="login">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Старый пароль</label>
+            <input id="oldPass" type="password" class="form-control" name="pass">
+            <label for="exampleInputPassword1" class="form-label">Новый пароль</label>
+            <input id="newPass" type="password" class="form-control" name="pass">
+            <label for="exampleInputPassword1" class="form-label">Повторите пароль</label>
+            <input id="newPassRetype" type="password" class="form-control" name="pass">
+        </div>
+    </form>
+    <button id="changePassBtn" class="btn btn-primary">Изменить</button><br>
+
+    
+</body>
+
+</html>

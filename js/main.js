@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     let qryType = "";
 
-    let tabelArr = { 'group': [], 'day': [] };
+    let tabelArr = {'group': [], 'day': []};
     let timesArr = ['8.00-9-35', '9.45-11.20', '12.00-13.35', '14.15-15.50', '16.00-17-35', '17.45-19.20'];
     let weekDays = [];
     let groupArr = [];
@@ -15,8 +15,15 @@ $(document).ready(function () {
 
         // основные массивы учебного плана
 
-        tabelArr = { 'group': [], 'day': [] };
-        let dicsArr = { 'planGroupsArr': [], 'planIDArr': [], 'planYearArr': [], 'planPredmetArr': [], 'planSemestrArr': [], 'planLekciiArr': [] };
+        tabelArr = {'group': [], 'day': []};
+        let dicsArr = {
+            'planGroupsArr': [],
+            'planIDArr': [],
+            'planYearArr': [],
+            'planPredmetArr': [],
+            'planSemestrArr': [],
+            'planLekciiArr': []
+        };
         let maxDayArr = [];
         groupArr = [];
         let prepodArr = [];
@@ -44,7 +51,7 @@ $(document).ready(function () {
             date.setDate(date.getDate() + days);
             return date;
         }
-        
+
 
         let fistDay = $('#date').val();
         let date = new Date(fistDay);
@@ -57,8 +64,8 @@ $(document).ready(function () {
             date = date.addDays(1);
         }
 
-        if(weekDays[1] == 'NaN.NaN.NaN'){
-            alert('Не выбрана дата');   
+        if (weekDays[1] == 'NaN.NaN.NaN') {
+            alert('Не выбрана дата');
             fail;
         }
 
@@ -67,7 +74,7 @@ $(document).ready(function () {
 
         qryType = 'selGroups';
 
-        $.post('tabelScript.php', { qry: qryType }, (data) => {
+        $.post('tabelScript.php', {qry: qryType}, (data) => {
             global = jQuery.parseJSON(data);
             groupArr = global['IDGroups'];
             prepodArr = global['prepodID'];
@@ -146,7 +153,7 @@ $(document).ready(function () {
                     <td class="fs-3 mb-0 pb-0">` + groupArr[i] + `</td> </tr>`;
 
                 $('#weekTabel').append(s);
- 
+
                 for (let j = 0; j < daysArr.length; j++) {
                     let idGr = '#' + groupArr[i];
                     $(idGr).append(`<td class="border m-0 p-0">
@@ -167,7 +174,7 @@ $(document).ready(function () {
 
                                 qryType = 'selKabPredm';
 
-                                $.post('database.php', { id: predmetTabel, qry: qryType }, function (data) {
+                                $.post('database.php', {id: predmetTabel, qry: qryType}, function (data) {
                                     arrD = jQuery.parseJSON(data);
                                     let discVal = arrD['predm'];
                                     let kabVal = arrD['kab'];
@@ -178,7 +185,7 @@ $(document).ready(function () {
                                    <td class="border">` + fio + `</td>
                                    <td class="border">` + kabVal + `</td> </tr>`;
                                     $(idDay).append(ss);
-   
+
                                 })
 
                             }
@@ -187,16 +194,24 @@ $(document).ready(function () {
                     }
                 }
 
-                dicsArr = { 'planGroupsArr': [], 'planIDArr': [], 'planYearArr': [], 'planPredmetArr': [], 'planSemestrArr': [], 'planLekciiArr': [] };
+                dicsArr = {
+                    'planGroupsArr': [],
+                    'planIDArr': [],
+                    'planYearArr': [],
+                    'planPredmetArr': [],
+                    'planSemestrArr': [],
+                    'planLekciiArr': []
+                };
             }
 
         });
-        
+
         $(this).val('Изменить');
 
         $('#accept').remove();
 
-        $('.contBtnTabel').append('<input type="button" id="accept" class="col-3 btn btn-primary inline-block" value="Выгрузить расписание"></input>');;
+        $('.contBtnTabel').append('<input type="button" id="accept" class="col-3 btn btn-primary inline-block" value="Выгрузить расписание"></input>');
+        ;
 
     });
 
@@ -220,24 +235,32 @@ $(document).ready(function () {
 
                             qryType = 'selKabPredm';
 
-                            $.post('database.php', { id: disc, qry: qryType }, function (data) {
+                            $.post('database.php', {id: disc, qry: qryType}, function (data) {
                                 arrD = jQuery.parseJSON(data);
                                 let kabVal = arrD['kab'];
                                 let prepod = arrD['prepod'];
 
                                 qryType = "addTabel";
-                            
 
-                                $.post('tabelScript.php', {dateT: dateT, timeT: timeT, groupT: groupT, predmetT: predmetT, kabVal: kabVal, prepod: prepod, qry: qryType }, function (date) {
-                                    
+
+                                $.post('tabelScript.php', {
+                                    dateT: dateT,
+                                    timeT: timeT,
+                                    groupT: groupT,
+                                    predmetT: predmetT,
+                                    kabVal: kabVal,
+                                    prepod: prepod,
+                                    qry: qryType
+                                }, function (date) {
+
 
                                 });
 
                             })
 
-                            
+
                         }
-                        
+
                     }
                     k--;
                 }
@@ -262,7 +285,7 @@ $(document).ready(function () {
     // }
 
     $.ajax('menu.html', {
-        success: (respone)=>{
+        success: (respone) => {
             $('.menu').append(respone);
         }
     })
@@ -270,9 +293,9 @@ $(document).ready(function () {
 
     let namePage = $('.namePage').attr('data-qry');
 
-    function preload(qryType){
+    function preload(qryType) {
         $('#spinner').append(`<div class="d-flex justify-content-center"><img src="img/spinner.svg" ></div>`)
-        $.post('database.php', {qry: qryType}, (data)=>{
+        $.post('database.php', {qry: qryType}, (data) => {
             $('#spinner').remove()
             $('.dataPrint').append(data)
         })
@@ -282,30 +305,38 @@ $(document).ready(function () {
 
     //добавление группы
 
+    class dataExchange {
+
+        send(qryData, qryType, msg) {
+            $.post('database.php', {data: qryData, qry: qryType}, (d) => {
+                console.log(d)
+                alert(msg)
+            })
+        }
+
+    }
+
+    let addData = new dataExchange()
+
+
     $('body').on('click', '#addGroupBtn', function () {
 
-        qryType = "addGroup";
-
-        let idGroup = $('#ID').val();
-        let star = $('#starosta').val();
-        let phoneStar = $('#phoneStar').val();
         let subGroup;
         if ($('#subGroups').is(':checked')) {
             subGroup = 1;
-        } else { subGroup = 0 }
+        } else {
+            subGroup = 0
+        }
 
-        $.ajax({
-            method: "POST",
-            url: "database.php",
-            data: { id: idGroup, star: star, phone: phoneStar, sub: subGroup, qry: qryType }
-        })
-            .done(function () {
-                alert('Новая группа создана');
-            });
+        let arrGroup = {
+            'ID': $('#ID').val(),
+            'starosta': $('#starosta').val(),
+            'phoneStar': $('#phoneStar').val(),
+            'subGroups': subGroup
+        }
+        addData.send(arrGroup, 'addGroup', 'Группа успешно добавлена')
 
     });
-
-
 
 
     let arr;
@@ -316,14 +347,13 @@ $(document).ready(function () {
     function sPredm(sel) {
         qryType = "selPredm";
 
-        $.get("database.php", { qry: qryType }, function (data) {
+        $.get("database.php", {qry: qryType}, function (data) {
 
             arr = data;
             if (!arr) {
 
             } else {
                 arr = data;
-
 
 
                 $(sel).autocomplete({
@@ -344,7 +374,7 @@ $(document).ready(function () {
     function sPrep(sel) {
         qryType = "selPrep";
 
-        $.get("database.php", { qry: qryType }, function (data) {
+        $.get("database.php", {qry: qryType}, function (data) {
 
             arr = data;
 
@@ -392,7 +422,7 @@ $(document).ready(function () {
             $.ajax({
                 method: "POST",
                 url: "database.php",
-                data: { id: id, qry: qryType }
+                data: {id: id, qry: qryType}
             })
                 .done(function () {
 
@@ -408,7 +438,7 @@ $(document).ready(function () {
             let id = $(e.target).attr('class');
             tmp = id;
 
-            $.get('database.php', { id: id, qry: qryType }, function (data) {
+            $.get('database.php', {id: id, qry: qryType}, function (data) {
 
                 let arr = jQuery.parseJSON(data);
                 $('#fioUpd').val(arr['FIO']);
@@ -419,14 +449,13 @@ $(document).ready(function () {
 
             id = $(e.target).attr('class');
 
-            $.get('database.php', { id: id, qry: qryType }, function (data) {
+            $.get('database.php', {id: id, qry: qryType}, function (data) {
                 $('#listPredm').html(data);
             });
 
         }
 
     });
-
 
 
     // редактирование или удаление группы
@@ -443,7 +472,7 @@ $(document).ready(function () {
             $.ajax({
                 method: "POST",
                 url: "database.php",
-                data: { id: id, qry: qryType }
+                data: {id: id, qry: qryType}
             })
                 .done(function () {
 
@@ -459,7 +488,7 @@ $(document).ready(function () {
             let id = $(e.target).attr('class');
             tmp = id;
 
-            $.get('database.php', { id: id, qry: qryType }, function (data) {
+            $.get('database.php', {id: id, qry: qryType}, function (data) {
                 let arr = jQuery.parseJSON(data);
                 $('#IDUpd').val(arr['ID']);
                 $('#starostaUpd').val(arr['starosta']);
@@ -486,7 +515,7 @@ $(document).ready(function () {
             $.ajax({
                 method: "POST",
                 url: "database.php",
-                data: { id: id, qry: qryType }
+                data: {id: id, qry: qryType}
             })
                 .done(function () {
 
@@ -509,7 +538,7 @@ $(document).ready(function () {
 
                 qryType = "selPredm";
 
-                $.get('database.php', { qry: qryType }, function (data) {
+                $.get('database.php', {qry: qryType}, function (data) {
 
                     arr = data;
 
@@ -523,23 +552,20 @@ $(document).ready(function () {
             });
 
 
-
             qryType = 'kabAsPredm';
 
-            $.get('database.php', { id: id, qry: qryType }, function (data) {
+            $.get('database.php', {id: id, qry: qryType}, function (data) {
                 $('#listPredmUpd').html(data);
             });
 
 
-
             qryType = "updSelKab";
 
-            $.get('database.php', { id: id, qry: qryType }, function (data) {
+            $.get('database.php', {id: id, qry: qryType}, function (data) {
                 let arr = jQuery.parseJSON(data);
                 $('#IDUpdKab').val(arr['ID']);
 
             });
-
 
 
         }
@@ -558,7 +584,7 @@ $(document).ready(function () {
         $.ajax({
             method: "POST",
             url: "database.php",
-            data: { id: id, newId: newId, qry: qryType }
+            data: {id: id, newId: newId, qry: qryType}
         })
             .done(function () {
                 alert('Данные успешно изменены');
@@ -581,7 +607,7 @@ $(document).ready(function () {
             $.ajax({
                 method: "POST",
                 url: "database.php",
-                data: { idKab: id, idPredm: idFixPredm, qry: qryType }
+                data: {idKab: id, idPredm: idFixPredm, qry: qryType}
             })
                 .done(function () {
 
@@ -603,7 +629,7 @@ $(document).ready(function () {
             $.ajax({
                 method: "POST",
                 url: "database.php",
-                data: { id: id, qry: qryType }
+                data: {id: id, qry: qryType}
             })
                 .done(function () {
 
@@ -619,7 +645,7 @@ $(document).ready(function () {
             let id = $(e.target).attr('class');
             tmp = id;
 
-            $.get('database.php', { id: id, qry: qryType }, function (data) {
+            $.get('database.php', {id: id, qry: qryType}, function (data) {
 
                 let arr = jQuery.parseJSON(data);
                 $('#titleUpd').val(arr['title']);
@@ -641,7 +667,7 @@ $(document).ready(function () {
         $.ajax({
             method: "POST",
             url: "database.php",
-            data: { id: id, fio: fio, phone: phone, qry: qryType }
+            data: {id: id, fio: fio, phone: phone, qry: qryType}
         })
             .done(function () {
 
@@ -654,7 +680,7 @@ $(document).ready(function () {
             $.ajax({
                 method: "POST",
                 url: "database.php",
-                data: { idFix: e, qry: qryType }
+                data: {idFix: e, qry: qryType}
             })
                 .done(function () {
 
@@ -676,7 +702,7 @@ $(document).ready(function () {
             $.ajax({
                 method: "POST",
                 url: "database.php",
-                data: { idPrep: id, idFix: idFixPredm, qry: qryType }
+                data: {idPrep: id, idFix: idFixPredm, qry: qryType}
             })
                 .done(function () {
 
@@ -693,7 +719,7 @@ $(document).ready(function () {
 
         qryType = "selPredm";
 
-        $.get('database.php', { qry: qryType }, function (data) {
+        $.get('database.php', {qry: qryType}, function (data) {
 
             arr = data;
 
@@ -714,13 +740,12 @@ $(document).ready(function () {
         $.ajax({
             method: "POST",
             url: "database.php",
-            data: { id: id, title: title, qry: qryType }
+            data: {id: id, title: title, qry: qryType}
         })
             .done(function () {
                 alert('Данные успешно изменены');
             });
     });
-
 
 
     // добавление кабинета
@@ -740,7 +765,7 @@ $(document).ready(function () {
                 $.ajax({
                     method: "POST",
                     url: "database.php",
-                    data: { id: id, qry: qryType }
+                    data: {id: id, qry: qryType}
                 })
                     .done(function () {
                         alert('Данные загружены без указания предмета');
@@ -755,7 +780,7 @@ $(document).ready(function () {
                 $.ajax({
                     method: "POST",
                     url: "database.php",
-                    data: { id: id, predm: idPredm, qry: qryType }
+                    data: {id: id, predm: idPredm, qry: qryType}
                 })
                     .done(function () {
                         alert('Данные успешно загружены');
@@ -779,11 +804,10 @@ $(document).ready(function () {
         $('#subGroupsUpd').is(':checked') ? sub = 1 : sub = 0;
 
 
-
         $.ajax({
             method: "POST",
             url: "database.php",
-            data: { id: id, starosta: starosta, phoneStar: phoneStar, sub: sub, qry: qryType }
+            data: {id: id, starosta: starosta, phoneStar: phoneStar, sub: sub, qry: qryType}
         })
             .done(function () {
                 alert('Данные успешно изменены');
@@ -832,7 +856,7 @@ $(document).ready(function () {
                 $.ajax({
                     method: "POST",
                     url: "database.php",
-                    data: { fio: prepVal, phone: phoneVal, qry: qryType }
+                    data: {fio: prepVal, phone: phoneVal, qry: qryType}
                 })
                     .done(function () {
                         alert('Данные загружены без указания предмета');
@@ -848,7 +872,7 @@ $(document).ready(function () {
                 $.ajax({
                     method: "POST",
                     url: "database.php",
-                    data: { fio: prepVal, phone: phoneVal, predm: predmVal, qry: qryType }
+                    data: {fio: prepVal, phone: phoneVal, predm: predmVal, qry: qryType}
                 })
                     .done(function () {
                         alert('Данные успешно загружены');
@@ -880,7 +904,7 @@ $(document).ready(function () {
                 $.ajax({
                     method: "POST",
                     url: "database.php",
-                    data: { title: titleVal, qry: qryType }
+                    data: {title: titleVal, qry: qryType}
                 })
                     .done(function () {
                         alert('Данные загружены без указания преподавателя');
@@ -895,7 +919,7 @@ $(document).ready(function () {
                 $.ajax({
                     method: "POST",
                     url: "database.php",
-                    data: { title: titleVal, prep: prepVal, qry: qryType }
+                    data: {title: titleVal, prep: prepVal, qry: qryType}
                 })
                     .done(function () {
                         alert('Данные успешно загружены');
@@ -923,7 +947,7 @@ $(document).ready(function () {
 
         sqlGroupId = idGroup;
 
-        $.get('database.php', { group: idGroup, qry: qryType }, function (data) {
+        $.get('database.php', {group: idGroup, qry: qryType}, function (data) {
             $('.groupPlan').html(data);
         });
 
@@ -934,7 +958,7 @@ $(document).ready(function () {
     function clickPlan(id) {
         qryType = 'selPlan';
 
-        $.get('database.php', { group: id, qry: qryType }, function (data) {
+        $.get('database.php', {group: id, qry: qryType}, function (data) {
             $('.groupPlan').html(data);
         });
     }
@@ -974,7 +998,7 @@ $(document).ready(function () {
 
             qryType = 'selPredm';
 
-            $.post('database.php', { qry: qryType }, function (data) {
+            $.post('database.php', {qry: qryType}, function (data) {
 
                 arrPredm = jQuery.parseJSON(data);
 
@@ -983,7 +1007,14 @@ $(document).ready(function () {
                 idPredmPlan = arrPredm['ID'][tmpId];
                 qryType = 'addPlan';
 
-                $.post('database.php', { groups: sqlGroupId, predm: idPredmPlan, year: year, sem: sem, lekcii: lekcii, qry: qryType }, function () {
+                $.post('database.php', {
+                    groups: sqlGroupId,
+                    predm: idPredmPlan,
+                    year: year,
+                    sem: sem,
+                    lekcii: lekcii,
+                    qry: qryType
+                }, function () {
 
                 });
                 $('.btnPlan').remove();
@@ -1016,36 +1047,42 @@ $(document).ready(function () {
             let predmId = arr['title'].indexOf(val);
             val = arr['ID'][predmId];
             let type = 'predmet';
-            $.post('database.php', { idPlan: idPlan, val: val, type: type, qry: qryType }, () => {
+            $.post('database.php', {idPlan: idPlan, val: val, type: type, qry: qryType}, () => {
             });
         } else if (cl.indexOf('yearPlan') !== -1) {
             let val = $(e.target).val();
             let type = 'year';
-            $.post('database.php', { idPlan: idPlan, val: val, type: type, qry: qryType }, () => {
+            $.post('database.php', {idPlan: idPlan, val: val, type: type, qry: qryType}, () => {
             });
         } else if (cl.indexOf('semestrPlan') !== -1) {
             let val = $(e.target).val();
             let type = 'semestr';
-            $.post('database.php', { idPlan: idPlan, val: val, type: type, qry: qryType }, () => {
+            $.post('database.php', {idPlan: idPlan, val: val, type: type, qry: qryType}, () => {
             });
         } else if (cl.indexOf('lekciiPlan') !== -1) {
             let val = $(e.target).val();
             let type = 'lelcii';
-            $.post('database.php', { idPlan: idPlan, val: val, type: type, qry: qryType }, () => {
+            $.post('database.php', {idPlan: idPlan, val: val, type: type, qry: qryType}, () => {
             });
         }
 
     });
 
     // смена пароля пользователя
-    $('body').on('click', '#changePassBtn', function(){
+    $('body').on('click', '#changePassBtn', function () {
         qryType = 'editPass';
         let loggin = $('#loggin').val();
         let oldPass = $('#oldPass').val();
         let newPass = $('#newPass').val();
         let newPassRetype = $('#newPassRetype').val();
-        $.post('database.php', {loggin: loggin, oldPass: oldPass, newPass: newPass, newPassRetype: newPassRetype, qry: qryType},function (data) {  
-            alert(data);    
+        $.post('database.php', {
+            loggin: loggin,
+            oldPass: oldPass,
+            newPass: newPass,
+            newPassRetype: newPassRetype,
+            qry: qryType
+        }, function (data) {
+            alert(data);
         })
     });
 

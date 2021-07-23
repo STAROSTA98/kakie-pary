@@ -316,11 +316,21 @@ switch ($qryType) {
 
     case "addGroup":
         // добавление группы
-        $id = $_POST['id'];
-        $starosta = "'" . $_POST['star'] . "'";
-        $phone_star = "'" . $_POST['phone'] . "'";
-        $sub_groups = $_POST['sub'];
-        $sql = "INSERT INTO groups VALUES ($id, $starosta, $phone_star, $sub_groups)";
+        $data = $_POST['data'];
+
+        $sql = "INSERT INTO groups VALUES (";
+        foreach ($data as $item){
+            intval($item) ? $sql .= $item."," : $sql .= "'".$item."',";
+        }
+
+        $sql[strlen($sql) - 1] = ')';
+        echo var_dump($sql);
+
+        $id = $data['ID'];
+        $starosta = "'" . $data['starosta'] . "'";
+        $phone_star = "'" . $data['phoneStar'] . "'";
+        $sub_groups = $data['subGroups'];
+        //$sql = "INSERT INTO groups VALUES ($id, $starosta, $phone_star, $sub_groups)";
         $result = mysqli_query($link, $sql);
         $qryType = "";
         break;

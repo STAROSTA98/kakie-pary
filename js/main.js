@@ -249,22 +249,36 @@ $(document).ready(function () {
 
 
     // ajax загрузка страниц в правую панель
-    function loadDoc(url) {
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.querySelector('#demo').innerHTML = this.responseText;
-            }
+    // function loadDoc(url) {
+    //     let xhttp = new XMLHttpRequest();
+    //     xhttp.onreadystatechange = function () {
+    //         if (this.readyState == 4 && this.status == 200) {
+    //             document.querySelector('#menu').innerHTML = this.responseText;
+    //         }
+    //     }
+    //     xhttp.open("GET", url, true);
+    //     xhttp.send();
+    //     console.log(url)
+    // }
+
+    $.ajax('menu.html', {
+        success: (respone)=>{
+            $('.menu').append(respone);
         }
-        xhttp.open("GET", url, true);
-        xhttp.send();
+    })
+
+
+    let namePage = $('.namePage').attr('data-qry');
+
+    function preload(qryType){
+        $('#spinner').append(`<div class="d-flex justify-content-center"><img src="img/spinner.svg" ></div>`)
+        $.post('database.php', {qry: qryType}, (data)=>{
+            $('#spinner').remove()
+            $('.dataPrint').append(data)
+        })
     }
 
-    $('ul.nav').on('click', function (e) {
-        event.preventDefault();
-        e.target.href != "http://kakie-pary.ru/" ? loadDoc(e.target.href) : false;
-    });
-
+    preload(namePage);
 
     //добавление группы
 

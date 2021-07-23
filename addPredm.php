@@ -1,9 +1,3 @@
-<?php
-    include "database.php";
-
-    
-    
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,25 +9,53 @@
     <title>Предметы</title>
 </head>
 <body>
-    <h4 class="py-4">Предметы</h4>
-    <div class="d-flex justify-content-end">
-        <button id="openAddPredm" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Добавить</button>
-    </div>
-
-    <form id="content">
-        <div class="form-group container-fluids">
-            <div class="row">
-                <div class="col">
-                    <p>Поиск</p>
-                </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 menu">
+        </div>
+        <div class="col-10">
+            <h4 class="py-4 namePage" data-qry="printDisc">Предметы</h4>
+            <div class="d-flex justify-content-end">
+                <button id="openAddPredm" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Добавить</button>
             </div>
-            <div class="row">
-                <div class="col">
-                    <input class="" type="text" id="textAdd">
+
+            <form id="content">
+                <div class="form-group container-fluids">
+                    <div class="row">
+                        <div class="col">
+                            <p>Поиск</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input class="" type="text" id="textAdd">
+                        </div>
+                    </div>
                 </div>
+            </form>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody id="tablePredm" class="dataPrint">
+
+                </tbody>
+            </table>
+            <div id="spinner">
+
             </div>
         </div>
-    </form>
+
+        </div>
+    </div>
+</div>
+
+
+
 
 
 <!-- модальное окно изменения данных -->
@@ -87,45 +109,7 @@
                 </div>    
             </div>  
         </div>         
-    </div>
-    <div class="container-fluids">
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Название</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody id="tablePredm">
-                <?php
-                $ip = "localhost";
-                $name = "root";
-                $pass = "";
-                $db = "u1393764_default";
-            
-                $link = mysqli_connect($ip, $name, $pass, $db);
-            
-                $link->set_charset('UTF8');
-            
-                $link != true ? print("Error") : TRUE;
-                
-                 $sql = 'select * from predmet';
-                 $result = mysqli_query($link, $sql);
-                 while ($row = mysqli_fetch_assoc($result)){
-                     echo '<tr>';
-                     echo '<th>'.$row['title'].'</th>';
-                     echo '<td><button type="button" class="'.$row['ID'].'" data-bs-toggle="modal"
-                     data-bs-target="#myModalUpdPredm" value="Редактировать">Редактировать</button> 
-                     <button type="button" class="'.$row['ID'].'" value="Удалить">Удалить</button></td>'; 
-     
-                     echo '</tr>';  
-                 }
-                 $qryType = "";
-                ?>
-            </tbody>
-        </table>
-    </div>
+
         
 
     <script type="text/javascript" src="js/bootstrap.bundle.js"></script>

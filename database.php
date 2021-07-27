@@ -18,8 +18,38 @@ if (!$qryType) {
     $qryType = $_GET['qry'];
 }
 
+$qryType = 'selPredm';
+class dataExchange{
+    private $link;
+
+    public function __construct($con){
+        $this->link = $con;
+    }
+
+    public function dataAdd($data, $trueMsg, $falseMsg){
+
+        $sql = "INSERT INTO groups VALUES (";
+        foreach ($data as $item){
+            is_int($item) ? $sql .= $item."," : $sql .= "'".$item."',";
+        }
+        $sql[strlen($sql) - 1] = ')';
+        mysqli_query($this->link, $sql);
+        if($this->link->errno == 1062){
+            echo $falseMsg;
+        } else {
+            echo $trueMsg;
+        }
+    }
+}
+
+
 switch ($qryType) {
     // выборка предметов на один день по группе и дате
+    case "add":
+        // добавление группы
+        $dataAdd = new dataExchange($link);
+        $dataAdd->dataAdd(json_decode($_POST['data']), $_POST['trueMessage'], $_POST['falseMessage']);
+        break;
     case 'selTabelGroupDate':
         $groups = "'" . $_POST['id'] . "'";
         $dates = "'" . $_POST['dates'] . "'";
@@ -97,7 +127,7 @@ switch ($qryType) {
         $arr['title'] = $resArray;
         $arr['ID'] = $idArray;
         echo json_encode($arr, JSON_UNESCAPED_UNICODE);
-        $qryType = "";
+
         break;
     case "selPrep":
         // выборка преподавателей
@@ -314,26 +344,7 @@ switch ($qryType) {
 
         echo json_encode($arr);
 
-    case "addGroup":
-        // добавление группы
-        $data = $_POST['data'];
 
-        $sql = "INSERT INTO groups VALUES (";
-        foreach ($data as $item){
-            intval($item) ? $sql .= $item."," : $sql .= "'".$item."',";
-        }
-
-        $sql[strlen($sql) - 1] = ')';
-        echo var_dump($sql);
-
-        $id = $data['ID'];
-        $starosta = "'" . $data['starosta'] . "'";
-        $phone_star = "'" . $data['phoneStar'] . "'";
-        $sub_groups = $data['subGroups'];
-        //$sql = "INSERT INTO groups VALUES ($id, $starosta, $phone_star, $sub_groups)";
-        $result = mysqli_query($link, $sql);
-        $qryType = "";
-        break;
     case "addKab":
         // добавление предмета
         $id = $_POST['id'];

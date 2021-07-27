@@ -307,9 +307,8 @@ $(document).ready(function () {
 
     class dataExchange {
 
-        send(qryData, qryType, msg) {
-            $.post('database.php', {data: qryData, qry: qryType}, (d) => {
-                console.log(d)
+        send(qryData, qryType, trueMsg, falseMsg) {
+            $.post('database.php', {data: JSON.stringify(qryData), qry: qryType, trueMessage: trueMsg, falseMessage: falseMsg}, (msg) => {
                 alert(msg)
             })
         }
@@ -318,7 +317,7 @@ $(document).ready(function () {
 
     let addData = new dataExchange()
 
-
+    // добавление группы
     $('body').on('click', '#addGroupBtn', function () {
 
         let subGroup;
@@ -328,15 +327,67 @@ $(document).ready(function () {
             subGroup = 0
         }
 
-        let arrGroup = {
-            'ID': $('#ID').val(),
-            'starosta': $('#starosta').val(),
-            'phoneStar': $('#phoneStar').val(),
-            'subGroups': subGroup
-        }
-        addData.send(arrGroup, 'addGroup', 'Группа успешно добавлена')
-
+        let arrGroup = [
+            Number($('#ID').val()),
+            String($('#starosta').val()),
+            String($('#phoneStar').val()),
+            Number(subGroup)
+        ]
+        addData.send(arrGroup, 'add', 'Группа успешно добавлена','Такая группа уже существует')
     });
+
+    // добавление аудитории
+
+    $('body').on('click', '#addKabBtn', function () {
+        let arrKab = [
+            String($('#IDKab').val()),
+
+        ]
+    })
+
+    $('body').on('click', '#addKabBtn', function () {
+        qryType = 'addKab';
+
+        let id = $('#IDKab').val();
+        let predm = $('#listPredm').val();
+
+        let tPredm = arr['title'].indexOf(predm);
+        let idPredm = arr['ID'][tPredm];
+
+        if (!predm) {
+            if (!id) {
+                alert('Данные не заполнены');
+            } else {
+                $.ajax({
+                    method: "POST",
+                    url: "database.php",
+                    data: {id: id, qry: qryType}
+                })
+                    .done(function () {
+                        alert('Данные загружены без указания предмета');
+                    });
+
+                $('.addKab').trigger('reset');
+            }
+        } else {
+            if (!id) {
+                alert('Данные не заполнены');
+            } else {
+                $.ajax({
+                    method: "POST",
+                    url: "database.php",
+                    data: {id: id, predm: idPredm, qry: qryType}
+                })
+                    .done(function () {
+                        alert('Данные успешно загружены');
+
+                    });
+
+                $('.addKab').trigger('reset');
+            }
+        }
+    });
+
 
 
     let arr;
@@ -350,16 +401,15 @@ $(document).ready(function () {
         $.get("database.php", {qry: qryType}, function (data) {
 
             arr = data;
+            console.log(qryType)
             if (!arr) {
 
             } else {
                 arr = data;
 
-
                 $(sel).autocomplete({
                     source: arr["title"]
                 });
-
 
             }
         }, "json");
@@ -374,7 +424,7 @@ $(document).ready(function () {
     function sPrep(sel) {
         qryType = "selPrep";
 
-        $.get("database.php", {qry: qryType}, function (data) {
+        $.post("database.php", {qry: qryType}, function (data) {
 
             arr = data;
 
@@ -746,52 +796,6 @@ $(document).ready(function () {
                 alert('Данные успешно изменены');
             });
     });
-
-
-    // добавление кабинета
-    $('body').on('click', '#addKabBtn', function () {
-        qryType = 'addKab';
-
-        let id = $('#IDKab').val();
-        let predm = $('#listPredm').val();
-
-        let tPredm = arr['title'].indexOf(predm);
-        let idPredm = arr['ID'][tPredm];
-
-        if (!predm) {
-            if (!id) {
-                alert('Данные не заполнены');
-            } else {
-                $.ajax({
-                    method: "POST",
-                    url: "database.php",
-                    data: {id: id, qry: qryType}
-                })
-                    .done(function () {
-                        alert('Данные загружены без указания предмета');
-                    });
-
-                $('.addKab').trigger('reset');
-            }
-        } else {
-            if (!id) {
-                alert('Данные не заполнены');
-            } else {
-                $.ajax({
-                    method: "POST",
-                    url: "database.php",
-                    data: {id: id, predm: idPredm, qry: qryType}
-                })
-                    .done(function () {
-                        alert('Данные успешно загружены');
-
-                    });
-
-                $('.addKab').trigger('reset');
-            }
-        }
-    });
-
 
     //изменение группы
     $('body').on('click', '#updGroupBtn', function () {

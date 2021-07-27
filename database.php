@@ -18,7 +18,7 @@ if (!$qryType) {
     $qryType = $_GET['qry'];
 }
 
-$qryType = 'selPredm';
+
 class dataExchange{
     private $link;
 
